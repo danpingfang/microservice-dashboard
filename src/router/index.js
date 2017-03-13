@@ -10,7 +10,7 @@ export default new Router({
             redirect: '/login'
         },
         {
-            path: '/readme',
+            path: '/home',
             component: resolve => require(['../components/common/Home.vue'], resolve),
             children:[
                 {
@@ -27,27 +27,7 @@ export default new Router({
                 },
                 {
                     path: '/baseform',
-                    component: resolve => require(['../components/page/c.vue'], resolve)
-                },
-                {
-                    path: '/vueeditor',
-                    component: resolve => require(['../components/page/VueEditor.vue'], resolve)    // Vue-Quill-Editor组件
-                },
-                {
-                    path: '/markdown',
-                    component: resolve => require(['../components/page/Markdown.vue'], resolve)     // Vue-Quill-Editor组件
-                },
-                {
-                    path: '/upload',
-                    component: resolve => require(['../components/page/Upload.vue'], resolve)       // Vue-Core-Image-Upload组件
-                },
-                {
-                    path: '/basecharts',
-                    component: resolve => require(['../components/page/BaseCharts.vue'], resolve)   // vue-echarts-v3组件
-                },
-                {
-                    path: '/mixcharts',
-                    component: resolve => require(['../components/page/MixCharts.vue'], resolve)    // vue-echarts-v3组件
+                    component: resolve => require(['../components/page/e.vue'], resolve)
                 }
             ]
         },

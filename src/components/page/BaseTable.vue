@@ -101,28 +101,6 @@
             </table>
         </div>
     </div>
-    <div class="app-list" >
-     <div class="table-responsive" >
-        <table class="table table-striped table-bordered table-hover" id="dataTables">
-            <thead>
-                <tr class="success">
-                    <th>DeployUser</th>
-                    <th>ImageName</th>
-                    <th>AppEnv</th>
-                    <th>GitUrl</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                  <td>liqiang</td>
-                  <td>t16301n623.iask.in:6000/fund/dev-zs5s-dataservice-beijing:11</td>
-                  <td>dev</td>
-                  <td>ssh://git@git.zs:10022/fund/zs5s-dataService-beijing.git</td>  
-                </tr>
-            </tbody>
-        </table>
-      </div>  
-    </div>
 </div>
 </template>
 
@@ -168,17 +146,17 @@ import 'bootstrap/dist/js/bootstrap.js';
                   if(this.List[i].deploy_info !=''){
                      console.log(this.List[i].deploy_info.deploy_time)
                     var dateOnce = this.List[i].deploy_info.deploy_time;
-                    var dateNow = new Date();    //结束时间  
-                    var time = dateNow.getTime() - new Date(dateOnce).getTime();   //时间差的毫秒数        
-                    var days=Math.floor(time/(24*3600*1000)); 
+                    var dateNow = new Date();    //结束时间
+                    var time = dateNow.getTime() - new Date(dateOnce).getTime();   //时间差的毫秒数
+                    var days=Math.floor(time/(24*3600*1000));
                     var leave1=time%(24*3600*1000);
                     var hours=Math.floor(leave1/(3600*1000));
-                    var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数  
+                    var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
                     var minutes=Math.floor(leave2/(60*1000)) ;
-                    var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数  
+                    var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数
                     var seconds=Math.round(leave3/1000);
                     this.List[i].deploy_info.deploy_time = days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒";
-                  }   
+                  }
                 }
               });
             }         

@@ -40,7 +40,7 @@
         methods: {
             submitForm() {
                 const self = this;
-                self.$router.push('/readme');   
+                self.$router.push('/home');
             }
         }
     }
