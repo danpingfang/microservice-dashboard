@@ -3,7 +3,7 @@
 
     <div class="whole-page "></div>
     <div class="current-page">
-      <h3 class="project"><i class="icon icon-logout"></i> 表格管理</h3>
+      <h3 class="project"><i class="icon icon-logout"></i> 微服务</h3>
     </div>
     <div class="card-content">
         <form role="form">
@@ -26,7 +26,7 @@
                     <tr v-for="(data,index) in List">
                         <td>{{index+1}}</td>
                         <td> 
-                          <span data-toggle="modal" :data-target="'#' + index" style="width:100%; display: inline-block; height:100%" >{{data.domain_name}} </span> 
+                          <a data-toggle="modal" :data-target="'#' + index" style="width:100%; display: inline-block; height:100%" >{{data.domain_name}} </a>
                           
                           <!-- Modal -->
                           <div class="modal fade" :id="index" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -60,7 +60,7 @@
                         </td>
                         <td>{{data.total_status}}</td>
                         <td> 
-                           <span data-toggle="modal" :data-target="'#first-' + index" style="width:100%; display: inline-block; height:100%" >{{data.deploy_info.app_name}}</span>
+                           <a data-toggle="modal" :data-target="'#first-' + index" style="width:100%; display: inline-block; height:100%" >{{data.deploy_info.app_name}}</a>
 
                             <!-- Modal -->
                           <div class="modal fade" :id="'first-'+index" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
