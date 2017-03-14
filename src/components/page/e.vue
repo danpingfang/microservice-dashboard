@@ -94,7 +94,7 @@
                 </div>
               </div>
             </td>
-            <td>{{data.deploy_info.deploy_time}}</td>
+            <td>{{formatTime((timeNow - data.deploy_info.deploy_time))}}</td>
             <td>{{data.address.length}}</td>
           </tr>
           </tbody>
@@ -160,8 +160,8 @@ import 'bootstrap/dist/js/bootstrap.js';
                 pages : [],              // 页码
                 activeNum : 0,
                 sourceList : [],
-                List : []
-
+                List : [],
+                timeNow: new Date().getTime()
             }
         },
         computed: {
@@ -173,7 +173,11 @@ import 'bootstrap/dist/js/bootstrap.js';
           }
         },
         created: function(){
-           this.getData()
+           this.getData();
+           //var self = this;
+              setInterval(()=>{
+                this.timeNow = new Date().getTime();
+              }, 1000)
         },
         watch : {
           'len' : function(){
@@ -197,33 +201,26 @@ import 'bootstrap/dist/js/bootstrap.js';
               }).done((response) => {
                 for(var i=0; i<response.length; i++){
                   response[i].jsonString = JSON.stringify(response[i]).toUpperCase();
+                  if(!response[i].deploy_info.deploy_time) continue;
+                  response[i].deploy_info.deploy_time = new Date(response[i].deploy_info.deploy_time).getTime();
                 }
                 this.List = response;
                 this.sourceList = response;
                 this.pageTotal = Math.ceil(this.List.length / this.len);
-
-                //for (var i = 1; i <= this.pageTotal; i++) {
-                  //this.pages.push(i);
-                //}
-                //console.log(this.pages)
-                // console.log(this.List[2].deploy_info.deploy_time)
-                for(var i=0; i<this.List.length; i++){
-                  if(this.List[i].deploy_info !=''){
-                     console.log(this.List[i].deploy_info.deploy_time)
-                    var dateOnce = this.List[i].deploy_info.deploy_time;
-                    var dateNow = new Date();    //结束时间
-                    var time = dateNow.getTime() - new Date(dateOnce).getTime();   //时间差的毫秒数
-                    var days=Math.floor(time/(24*3600*1000));
-                    var leave1=time%(24*3600*1000);
-                    var hours=Math.floor(leave1/(3600*1000));
-                    var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
-                    var minutes=Math.floor(leave2/(60*1000)) ;
-                    var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数
-                    var seconds=Math.round(leave3/1000);
-                    this.List[i].deploy_info.deploy_time = days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒";
-                  }
-                }
               });
+            },
+            formatTime(time) {
+              if(!time || Number.isNaN(time)) {
+                return '';
+              }
+              var days=Math.floor(time/(24*3600*1000));
+              var leave1=time%(24*3600*1000);
+              var hours=Math.floor(leave1/(3600*1000));
+              var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
+              var minutes=Math.floor(leave2/(60*1000)) ;
+              var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数
+              var seconds=Math.round(leave3/1000);
+              return days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒";
             },
             // 点击页码刷新数据
             onPageClick (index) {
