@@ -4,7 +4,7 @@
           <div class="sidebar-collapse">
             <ul class="nav" id="main-menu">
               <li @click="goBaseTable()">
-                  <a class="active-menu waves-effect waves-dark">表格管理</a>
+                  <a class="active-menu waves-effect waves-dark">微服务</a>
               </li>
               <li @click="goBaseForm()">
                   <a class="waves-effect waves-dark">表单管理</a>
