@@ -1,6 +1,8 @@
 // https://github.com/shelljs/shelljs
 require('./check-versions')()
-
+var express = require('express');
+var path = require('path');
+var app = express();
 process.env.NODE_ENV = 'production'
 
 var ora = require('ora')
@@ -37,4 +39,14 @@ webpack(webpackConfig, function (err, stats) {
     '  Tip: built files are meant to be served over an HTTP server.\n' +
     '  Opening index.html over file:// won\'t work.\n'
   ))
+
+app.use(express.static(path.join(__dirname, '../dist'), {
+  index: 'index.html',
+  maxAge: 30 * 1000,
+}));
+
+var port = process.env.PORT || process.env.PORT || 8080;
+app.listen(port, ()=>{
+  console.log('server running at port:', port);
+});
 })

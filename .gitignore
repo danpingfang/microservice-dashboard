@@ -4,3 +4,4 @@
 microservice-dashboard.iml
 node_modules/
 npm-debug.log
+dist/*
