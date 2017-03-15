@@ -1,167 +1,262 @@
 <template>
-<div class="baseTable">
-
+  <div class="baseTable">
     <div class="whole-page "></div>
     <div class="current-page">
-      <h3 class="project"><i class="icon icon-logout"></i> 微服务</h3>
+      <h3 class="project"><i class="glyphicon glyphicon-map-marker"></i> 微服务</h3>
     </div>
     <div class="card-content">
-        <form role="form">
-            <input type="text" class="form-control search-text" id="name" placeholder="输入关键词" v-model="keywords">
-            <button type="submit" class="btn btn-default button-search" @click="onSearch()">搜索</button>
-        </form>
-        <div class="table-responsive" >
-            <table class="table table-striped table-bordered table-hover" id="dataTables">
-                <thead>
-                    <tr class="success">
-                        <th>序号</th>
-                        <th>域名</th>
-                        <th>状态</th>
-                        <th>服务名</th>
-                        <th>运行时间</th>
-                        <th>实例个数</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(data,index) in List">
-                        <td>{{index+1}}</td>
-                        <td> 
-                          <a data-toggle="modal" :data-target="'#' + index" style="width:100%; display: inline-block; height:100%" >{{data.domain_name}} </a>
-                          
-                          <!-- Modal -->
-                          <div class="modal fade" :id="index" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
-                                  <h4>应用运行详情</h4>
-                                </div>
-                                <div class="table-responsive" >
-                                  <table class="table table-striped table-bordered table-hover" id="dataTables">
-                                      <thead>
-                                          <tr class="success">
-                                              <th>Url</th>
-                                              <th>Status</th>
-                                              <th>Lastmodified</th>
-                                          </tr>
-                                      </thead>
-                                      <tbody>
-                                          <tr v-for="item in data.address">
-                                            <td>{{item.url}}</td>
-                                            <td>{{item.status}}</td>
-                                            <td>{{item.lastmodified}}</td>               
-                                          </tr>
-                                      </tbody>
-                                  </table>
-                                </div>  
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>{{data.total_status}}</td>
-                        <td> 
-                           <a data-toggle="modal" :data-target="'#first-' + index" style="width:100%; display: inline-block; height:100%" >{{data.deploy_info.app_name}}</a>
+      <form role="form">
+        <input type="text" class="form-control search-text" id="name" placeholder="输入关键词" v-model="keywords">
+        <button type="submit" class="btn btn-default button-search" @click="onSearch()">搜索</button>
+      </form>
+      <div class="table-responsive" >
+        <table class="table table-striped table-bordered table-hover" id="dataTables">
+          <thead>
+          <tr class="success">
+            <th>序号</th>
+            <th>域名</th>
+            <th>状态</th>
+            <th>服务名</th>
+            <th>运行时间</th>
+            <th>实例个数</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(data,index) in List" v-if="index < end && index >= start" >
+            <td>{{index+1}}</td>
+            <td>
+              <a data-toggle="modal" :data-target="'#' + index" style="width:100%; display: inline-block; height:100%" >{{data.domain_name}} </a>
 
-                            <!-- Modal -->
-                          <div class="modal fade" :id="'first-'+index" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
-                                  <h4>应用发布详情</h4>
-                                </div>
-                                <div class="table-responsive" >
-                                  <table class="table table-striped table-bordered table-hover" id="dataTables">
-                                      <thead>
-                                          <tr class="success">
-                                              <th>DeployUser</th>
-                                              <th>ImageName</th>
-                                              <th>AppEnv</th>
-                                              <th>GitUrl</th>
-                                          </tr>
-                                      </thead>
-                                      <tbody>
-                                          <tr>
-                                            <td>{{data.deploy_info.deploy_user}}</td>
-                                            <td>{{data.deploy_info.image_name}}</td>
-                                            <td>{{data.deploy_info.app_env}}</td>
-                                            <td>{{data.deploy_info.git_url}}</td>               
-                                          </tr>
-                                      </tbody>
-                                  </table>
-                                </div>  
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>{{data.deploy_info.deploy_time}}</td>
-                        <td>{{data.address.length}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+              <!-- Modal -->
+              <div class="modal fade" :id="index" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4>应用运行详情</h4>
+                    </div>
+                    <div class="table-responsive" >
+                      <table class="table table-striped table-bordered table-hover" id="dataTables">
+                        <thead>
+                        <tr class="success">
+                          <th>Url</th>
+                          <th>Status</th>
+                          <th>Lastmodified</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="item in data.address">
+                          <td>{{item.url}}</td>
+                          <td>{{item.status}}</td>
+                          <td>{{item.lastmodified}}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td :class="data.total_status === 'error' ? 'returnRed' : ''">{{data.total_status}}</td>
+            <td>
+              <a data-toggle="modal" :data-target="'#first-' + index" style="width:100%; display: inline-block; height:100%" >{{data.deploy_info.app_name}}</a>
+
+              <!-- Modal -->
+              <div class="modal fade" :id="'first-'+index" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4>应用发布详情</h4>
+                    </div>
+                    <div class="table-responsive" >
+                      <table class="table table-striped table-bordered table-hover" id="dataTables">
+                        <thead>
+                        <tr class="success">
+                          <th>DeployUser</th>
+                          <th>ImageName</th>
+                          <th>AppEnv</th>
+                          <th>GitUrl</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td>{{data.deploy_info.deploy_user}}</td>
+                          <td>{{data.deploy_info.image_name}}</td>
+                          <td>{{data.deploy_info.app_env}}</td>
+                          <td>{{data.deploy_info.git_url}}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>{{formatTime((timeNow - data.deploy_info.deploy_time))}}</td>
+            <td>{{data.address.length}}</td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td colspan="6">
+              <div class="pull-right">
+                <nav class="boot-nav">
+                  <ul class="pagination boot-page">
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Previous" @click="onFirstClick()">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Next" @click="onPrevClick()">
+                        <span aria-hidden="true">‹</span>
+                      </a>
+                    </li>
+                    <li v-for="(n, index) in pageTotal" :class="activeNum === index ? 'active' : ''">
+                      <a href="javascript:void(0)" @click="onPageClick(index)">{{n}}</a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Next" @click="onNextClick()">
+                        <span aria-hidden="true">›</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Next" @click="onLastClick()">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="page-total">
+                    共 <span v-text="pageTotal"></span> 页
+                  </div>
+                </nav>
+                <!--<span class="rows"> 显示行数</span>-->
+                <!--<input class="form-control boot-select" v-model="len" type="text" @input="onChangeLen(len)"/>-->
+                <select class="form-control boot-select" v-model="len" @change="onChangeLen(len)">
+                  <option v-for="(arr,index) in lens" :value="arr">{{arr}}</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
 import $ from 'jquery';
 import 'bootstrap/dist/js/bootstrap.js';
-    export default {
-        data() {
-            return {
-                keywords : '',
-                List : []
-               
-            }
-        },
-        created: function(){
-           this.getData()
-        },
-        methods: {
-            onSearch() {
-              var keywords = this.keywords;
-              var dataTables = document.getElementById("dataTables");
-              for(var i=0;i<dataTables.tBodies[0].rows.length;i++){
-                  var str1=dataTables.tBodies[0].rows[i].cells[1].innerHTML.toUpperCase();
-                  var str2=dataTables.tBodies[0].rows[i].cells[2].innerHTML.toUpperCase();
-                  var str3=dataTables.tBodies[0].rows[i].cells[3].innerHTML.toUpperCase();
-                  var str4=dataTables.tBodies[0].rows[i].cells[4].innerHTML.toUpperCase();
-                  var str5=dataTables.tBodies[0].rows[i].cells[5].innerHTML.toUpperCase();
-                  var str=keywords.toUpperCase();
-                  if(str1.search(str)==-1 && str2.search(str)==-1 && str3.search(str)==-1 && str4.search(str)==-1 && str5.search(str)==-1){
-                       dataTables.tBodies[0].rows[i].style.display='none';
-                  }
-              }
-            },
-            getData() {
-              $.ajax({
-                type:"get",
-                url: `http://gateway.zs/services`,
-                dataType: 'json'
-              }).done((response) => {
-                this.List = this.List.concat(response);
-                // console.log(this.List[2].deploy_info.deploy_time)
-                for(var i=0; i<this.List.length; i++){
-                  if(this.List[i].deploy_info !=''){
-                     console.log(this.List[i].deploy_info.deploy_time)
-                    var dateOnce = this.List[i].deploy_info.deploy_time;
-                    var dateNow = new Date();    //结束时间
-                    var time = dateNow.getTime() - new Date(dateOnce).getTime();   //时间差的毫秒数
-                    var days=Math.floor(time/(24*3600*1000));
-                    var leave1=time%(24*3600*1000);
-                    var hours=Math.floor(leave1/(3600*1000));
-                    var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
-                    var minutes=Math.floor(leave2/(60*1000)) ;
-                    var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数
-                    var seconds=Math.round(leave3/1000);
-                    this.List[i].deploy_info.deploy_time = days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒";
-                  }
-                }
-              });
-            }         
+  export default {
+    data() {
+      return {
+        keywords : '',
+        len : 10,                 // 每页显示个数
+        lens : [10, 20, 30],     // 显示个数数组
+        pageTotal : '',            // 总页数
+        pages : [],              // 页码
+        activeNum : 0,
+        sourceList : [],
+        List : [],
+        timeNow: new Date().getTime(),
+        interval: null
+      }
+    },
+    computed: {
+      end(){
+        return this.start + this.len;
+      },
+      start(){
+        return (this.activeNum) * this.len;
+      }
+    },
+    created: function(){
+    console.log('created');
+      this.getData();
+      this.interval = setInterval(()=>{
+        this.timeNow = new Date().getTime();
+      }, 1000)
+    },
+    beforeDestroy: function(){
+      console.log('destoryed');
+      this.interval && clearInterval(this.interval)
+    },
+    methods: {
+      onChangeLen: function(len){
+        this.pageTotal = Math.ceil(this.List.length / this.len);
+        this.start = 0;
+        this.activeNum = 0;
+      },
+      onSearch() {
+        this.List = this.sourceList.filter(item => {
+          return ~JSON.stringify(item).toUpperCase().indexOf(this.keywords.toUpperCase());
+        });
+        this.pageTotal = Math.ceil(this.List.length / this.len);
+      },
+      getData() {
+        $.ajax({
+          type:"get",
+          url: `http://gateway.zs/services`,
+          dataType: 'json'
+        }).done((response) => {
+          for(var i=0; i<response.length; i++){
+            response[i].jsonString = JSON.stringify(response[i]).toUpperCase();
+            if(!response[i].deploy_info.deploy_time) continue;
+            response[i].deploy_info.deploy_time = new Date(response[i].deploy_info.deploy_time).getTime();
+          }
+          this.List = response;
+          this.sourceList = response;
+          this.pageTotal = Math.ceil(this.List.length / this.len);
+        });
+      },
+      formatTime(time) {
+        if(!time || Number.isNaN(time)) {
+          return '';
         }
+        var days=Math.floor(time/(24*3600*1000));
+        var leave1=time%(24*3600*1000);
+        var hours=Math.floor(leave1/(3600*1000));
+        var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
+        var minutes=Math.floor(leave2/(60*1000)) ;
+        var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数
+        var seconds=Math.round(leave3/1000);
+        return days+"天 "+hours+"小时 "+minutes+"分钟 "+seconds+"秒 ";
+      },
+      // 点击页码刷新数据
+      onPageClick (index) {
+        this.activeNum = index;
+        console.log(this.activeNum);
+      },
+      // 上一页
+      onPrevClick () {
+        // 当前页是否为当前最小页码
+        if (this.activeNum > 0) {
+          this.activeNum = this.activeNum - 1
+        } else {
+          alert("当前已经是首页");
+        }
+      },
+      // 下一页
+      onNextClick () {
+        // 当前页是否为当前最大页码
+        if (this.activeNum < this.pageTotal - 1) {
+          this.activeNum = this.activeNum + 1
+        } else {
+          alert("当前已经是最后页");
+        }
+      },
+      // 第一页
+      onFirstClick () {
+        this.activeNum = 0
+      },
+      // 最后一页
+      onLastClick () {
+        this.activeNum = this.pageTotal-1;
+      }
     }
+  }
 </script>
 
 <style>
@@ -227,5 +322,33 @@ import 'bootstrap/dist/js/bootstrap.js';
   .modal-header{
     border-bottom: 0;
   }
+  .boot-select {
+    float: right;
+    width: 80px;
+  }
 
+  .boot-nav {
+    float: right;
+  }
+
+  .boot-page {
+    display: inline-block;
+    margin: 2px 10px 0 20px;
+    vertical-align: middle;
+  }
+
+  .page-total {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .rows{
+    line-height:34px;
+    padding-right:10px;
+  }
+  .returnRed{
+    color:red;
+  }
+  a{
+    cursor:pointer;
+  }
 </style>

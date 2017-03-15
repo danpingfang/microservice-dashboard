@@ -87,11 +87,11 @@ import 'bootstrap/dist/css/bootstrap.css';
     box-shadow: none;
   }
   .sidebar-collapse > .nav > li {
-    border-bottom: 1px solid rgba(107, 108, 109, 0.19);
+    border-bottom: 2px solid rgba(107, 108, 109, 0.19);
   }
   .sidebar-collapse > .nav > li > a {
-    padding: 8px;
-    font-size: 14px;
+    padding: 14px 14px 14px 20px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.47);
     background: transparent;
     text-shadow: none;   
@@ -111,6 +111,4 @@ import 'bootstrap/dist/css/bootstrap.css';
   ul.nav.nav-second-level{
     display:none;
   }
-   
- 
 </style>

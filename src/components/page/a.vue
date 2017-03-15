@@ -23,21 +23,22 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group form-actions">
-					<div class="col-xs-4 col-xs-offset-4 ">
-						<button type="submit" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-off"></span> 登录</button>
-					</div>
-				</div>
+
 				<div class="form-group">
+					<!--<div class="col-xs-6 link">-->
+						<!--<p class="text-center remove-margin"><small>忘记密码？</small> <a href="javascript:void(0)" ><small>找回</small></a>-->
+						<!--</p>-->
+					<!--</div>-->
 					<div class="col-xs-6 link">
-						<p class="text-center remove-margin"><small>忘记密码？</small> <a href="javascript:void(0)" ><small>找回</small></a>
-						</p>
-					</div>
-					<div class="col-xs-6 link">
-						<p class="text-center remove-margin"><small>还没注册?</small> <a href="javascript:void(0)" ><small>注册</small></a>
-						</p>
+            <input type="checkbox" id="remember-me" checked>
+            <label for="remember-me">记住登录状态</label>
 					</div>
 				</div>
+        <div class="form-group form-actions">
+          <div class="col-xs-4 col-xs-offset-4 ">
+            <button type="submit" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-off"></span> 登录</button>
+          </div>
+        </div>
 			</form>
 			</div>
 		</div>
@@ -84,7 +85,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 	width: 100%;
 	max-width:500px;
 	height: 275px;
-	margin: 25px auto 0px auto;
+	margin: 10px auto 0px auto;
 	padding-top: 25px;
 }	
 .login-content {
@@ -125,4 +126,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 	padding: 8px 24px !important;
 	font-size: 16px !important;
 }
+.form-control{
+  padding:24px 12px;
+}
+.input-group-addon{
+  padding:12px 12px;
+}
+
 </style>

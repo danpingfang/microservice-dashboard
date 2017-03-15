@@ -1,56 +1,57 @@
 <template>
-    <div class="header">
-        <div class="admin-login-box">
-        <h3>后台管理中心</h3>
-        </div>
-        <ul class="layui-nav">
-          <!-- <li>控制面板</li>
-          <li>表格管理</li>  -->
-          <li class="header-user">
-          <img src="../../../static/img/img.jpg" alt="photo"/>
-          <span>{{username}}</span>
-          <span class="bottom-arrow"></span>
-          <dl class="layui-nav-child">
-            <dd>
-              <i class="icon icon-mine"></i> 个人信息
-            </dd>
-            <dd>
-              <i class="icon icon-set"></i> 设置
-            </dd>
-            <dd @click="loginOut()">
-              <i class="icon icon-logout"></i> 注销  
-            </dd>
-          </dl>
-          </li>      
-        </ul>
+  <div class="header">
+    <div class="admin-login-box">
+      <h3>后台管理中心</h3>
     </div>
+    <ul class="layui-nav">
+      <!-- <li>控制面板</li>
+      <li>表格管理</li>  -->
+      <a>
+      <li class="header-user">
+        <img src="../../../static/img/img.jpg" alt="photo"/>
+        <span>{{username}}</span>
+        <span class="bottom-arrow"></span>
+        <dl class="layui-nav-child">
+          <dd>
+            <a><i class="icon icon-mine"></i> 个人信息</a>
+          </dd>
+          <dd>
+            <a><i class="icon icon-set"></i> 设置</a>
+          </dd>
+          <dd @click="loginOut()">
+            <a><i class="icon icon-logout"></i> 注销</a>
+          </dd>
+        </dl>
+      </li>
+      </a>
+    </ul>
+  </div>
 </template>
 <script>
-    export default {
-        data() {
-            return {
-                name: 'fangdanping'
-            }
-        },
-        computed:{
-            username(){
-                let username = localStorage.getItem('ms_username');
-                return username ? username : this.name;
-            }
-        },
-        methods:{
-            handleCommand(command) {
-                if(command == 'loginout'){
-                    localStorage.removeItem('ms_username')
-                    this.$router.push('/login');
-                }
-            },
-            loginOut() {
-              localStorage.removeItem('ms_username')
-              this.$router.push('/login');
-            }
+  export default {
+    data() {
+      return {
+          username: 'fangdanping'
+      }
+    },
+    computed:{
+      username(){
+          let username = localStorage.getItem('ms_username');
+          return username ? username : this.name;
+      }
+    },
+    methods:{
+      handleCommand(command) {
+        if(command == 'loginout'){
+            localStorage.removeItem('ms_username')
+            this.$router.push('/login');
         }
+      },
+      loginOut() {
+        this.$router.push('/login');
+      }
     }
+  }
 </script>
 <style scoped>
 h3{
@@ -60,6 +61,7 @@ h3{
 .header{
   position:relative;
   border-bottom: 5px solid #1AA094;
+  background-color:#b5cfd9;
 }
 .admin-login-box {
   width: 185px;
@@ -104,7 +106,7 @@ h3{
   width: 0;
   height: 0;
   border-style: solid dashed dashed;
-  border-color: #c2c2c2 transparent transparent;
+  border-color: #999 transparent transparent;
   overflow: hidden;
   cursor: pointer;
   transition: all .2s;
@@ -119,9 +121,8 @@ h3{
   position: absolute;
   right: 12px;
   width:142px;
-  top: 67px;
+  top: 65px;
   line-height: 36px;
-  padding: 5px 0;
   border: 1px solid #d2d2d2;
   background-color: #fff;
   z-index: 100;
@@ -133,6 +134,7 @@ h3{
   display:inline-block;
 }
 .layui-nav li:hover .bottom-arrow {
+  border-color: #333 transparent transparent;
   top:25px;
   transform:rotate(180deg);
   -moz-transform:rotate(180deg);
@@ -143,10 +145,19 @@ h3{
   padding-left:20px;
   font-size:14px;
   color:#999;
+  line-height:36px;
+}
+.layui-nav-child>dd:hover {
+  /*background-color:#8fbc8f;*/
+  background-color:#d3d3d3;
 }
 .layui-nav-child>dd i{
   font-size:16px;
   color:#999;  
+}
+.layui-nav-child a{
+  color:#999;
+  text-decoration:none;
 }
 </style>
 

@@ -1,9 +1,8 @@
 <template>
   <div class="baseTable">
-
     <div class="whole-page "></div>
     <div class="current-page">
-      <h3 class="project"><i class="icon icon-logout"></i> 表格管理</h3>
+      <h3 class="project"><i class="icon icon-logout"></i> 微服务</h3>
     </div>
     <div class="card-content">
       <form role="form">
@@ -26,7 +25,7 @@
           <tr v-for="(data,index) in List" v-if="index < end && index >= start" >
             <td>{{index+1}}</td>
             <td>
-              <span data-toggle="modal" :data-target="'#' + index" style="width:100%; display: inline-block; height:100%" >{{data.domain_name}} </span>
+              <a data-toggle="modal" :data-target="'#' + index" style="width:100%; display: inline-block; height:100%" >{{data.domain_name}} </a>
 
               <!-- Modal -->
               <div class="modal fade" :id="index" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -58,9 +57,9 @@
                 </div>
               </div>
             </td>
-            <td>{{data.total_status}}</td>
+            <td :class="data.total_status === 'error' ? 'returnRed' : ''">{{data.total_status}}</td>
             <td>
-              <span data-toggle="modal" :data-target="'#first-' + index" style="width:100%; display: inline-block; height:100%" >{{data.deploy_info.app_name}}</span>
+              <a data-toggle="modal" :data-target="'#first-' + index" style="width:100%; display: inline-block; height:100%" >{{data.deploy_info.app_name}}</a>
 
               <!-- Modal -->
               <div class="modal fade" :id="'first-'+index" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -150,112 +149,110 @@
 <script>
 import $ from 'jquery';
 import 'bootstrap/dist/js/bootstrap.js';
-    export default {
-        data() {
-            return {
-                keywords : '',
-                len : 10,                 // 每页显示个数
-                lens : [10, 20, 40],     // 显示个数数组
-                pageTotal : '',            // 总页数
-                pages : [],              // 页码
-                activeNum : 0,
-                sourceList : [],
-                List : [],
-                timeNow: new Date().getTime()
-            }
-        },
-        computed: {
-          end(){
-             return this.start + this.len;
-          },
-          start(){
-             return (this.activeNum) * this.len;
+  export default {
+    data() {
+      return {
+        keywords : '',
+        len : 10,                 // 每页显示个数
+        lens : [10, 20, 40],     // 显示个数数组
+        pageTotal : '',            // 总页数
+        pages : [],              // 页码
+        activeNum : 0,
+        sourceList : [],
+        List : [],
+        timeNow: new Date().getTime()
+      }
+    },
+    computed: {
+      end(){
+        return this.start + this.len;
+      },
+      start(){
+        return (this.activeNum) * this.len;
+      }
+    },
+    created: function(){
+      this.getData();
+      setInterval(()=>{
+        this.timeNow = new Date().getTime();
+      }, 1000)
+    },
+    watch : {
+      'len' : function(){
+        this.pageTotal = Math.ceil(this.List.length / this.len);
+        this.start = 0;
+        this.activeNum = 0;
+      }
+    },
+    methods: {
+      onSearch() {
+        this.List = this.sourceList.filter(item => {
+          return ~JSON.stringify(item).toUpperCase().indexOf(this.keywords.toUpperCase());
+        });
+        this.pageTotal = Math.ceil(this.List.length / this.len);
+      },
+      getData() {
+        $.ajax({
+          type:"get",
+          url: `http://gateway.zs/services`,
+          dataType: 'json'
+        }).done((response) => {
+          for(var i=0; i<response.length; i++){
+            response[i].jsonString = JSON.stringify(response[i]).toUpperCase();
+            if(!response[i].deploy_info.deploy_time) continue;
+            response[i].deploy_info.deploy_time = new Date(response[i].deploy_info.deploy_time).getTime();
           }
-        },
-        created: function(){
-           this.getData();
-           //var self = this;
-              setInterval(()=>{
-                this.timeNow = new Date().getTime();
-              }, 1000)
-        },
-        watch : {
-          'len' : function(){
-             this.pageTotal = Math.ceil(this.List.length / this.len);
-             this.start = 0;
-             this.activeNum = 0;
-          }
-        },
-        methods: {
-            onSearch() {
-              this.List = this.sourceList.filter(item => {
-                return ~JSON.stringify(item).toUpperCase().indexOf(this.keywords.toUpperCase());
-              });
-              this.pageTotal = Math.ceil(this.List.length / this.len);
-            },
-            getData() {
-              $.ajax({
-                type:"get",
-                url: `http://gateway.zs/services`,
-                dataType: 'json'
-              }).done((response) => {
-                for(var i=0; i<response.length; i++){
-                  response[i].jsonString = JSON.stringify(response[i]).toUpperCase();
-                  if(!response[i].deploy_info.deploy_time) continue;
-                  response[i].deploy_info.deploy_time = new Date(response[i].deploy_info.deploy_time).getTime();
-                }
-                this.List = response;
-                this.sourceList = response;
-                this.pageTotal = Math.ceil(this.List.length / this.len);
-              });
-            },
-            formatTime(time) {
-              if(!time || Number.isNaN(time)) {
-                return '';
-              }
-              var days=Math.floor(time/(24*3600*1000));
-              var leave1=time%(24*3600*1000);
-              var hours=Math.floor(leave1/(3600*1000));
-              var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
-              var minutes=Math.floor(leave2/(60*1000)) ;
-              var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数
-              var seconds=Math.round(leave3/1000);
-              return days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒";
-            },
-            // 点击页码刷新数据
-            onPageClick (index) {
-              this.activeNum = index;
-              console.log(this.activeNum);
-            },
-            // 上一页
-            onPrevClick () {
-
-              // 当前页是否为当前最小页码
-              if (this.activeNum > 0) {
-                this.activeNum = this.activeNum - 1
-              } else {
-                alert("当前已经是首页");
-              }
-            },
-            // 下一页
-            onNextClick () {
-              // 当前页是否为当前最大页码
-              if (this.activeNum < this.pageTotal - 1) {
-                this.activeNum = this.activeNum + 1
-              } else {
-                alert("当前已经是最后页");
-              }
-            },
-            // 第一页
-            onFirstClick () {
-              this.activeNum = 0
-            },
-            // 最后一页
-            onLastClick () {
-              this.activeNum = this.pageTotal-1;
-            }
+          this.List = response;
+          this.sourceList = response;
+          this.pageTotal = Math.ceil(this.List.length / this.len);
+        });
+      },
+      formatTime(time) {
+        if(!time || Number.isNaN(time)) {
+          return '';
         }
+        var days=Math.floor(time/(24*3600*1000));
+        var leave1=time%(24*3600*1000);
+        var hours=Math.floor(leave1/(3600*1000));
+        var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
+        var minutes=Math.floor(leave2/(60*1000)) ;
+        var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数
+        var seconds=Math.round(leave3/1000);
+        return days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒";
+      },
+      // 点击页码刷新数据
+      onPageClick (index) {
+        this.activeNum = index;
+        console.log(this.activeNum);
+      },
+      // 上一页
+      onPrevClick () {
+        // 当前页是否为当前最小页码
+        if (this.activeNum > 0) {
+          this.activeNum = this.activeNum - 1
+        } else {
+          alert("当前已经是首页");
+        }
+      },
+      // 下一页
+      onNextClick () {
+        // 当前页是否为当前最大页码
+        if (this.activeNum < this.pageTotal - 1) {
+          this.activeNum = this.activeNum + 1
+        } else {
+          alert("当前已经是最后页");
+        }
+      },
+      // 第一页
+      onFirstClick () {
+        this.activeNum = 0
+      },
+      // 最后一页
+      onLastClick () {
+        this.activeNum = this.pageTotal-1;
+      }
     }
+  }
 </script>
 
 <style>
@@ -321,27 +318,33 @@ import 'bootstrap/dist/js/bootstrap.js';
   .modal-header{
     border-bottom: 0;
   }
-.boot-select {
+  .boot-select {
     float: right;
     width: 80px;
-}
+  }
 
-.boot-nav {
+  .boot-nav {
     float: right;
-}
+  }
 
-.boot-page {
+  .boot-page {
     display: inline-block;
     margin: 2px 10px 0 20px;
     vertical-align: middle;
-}
+  }
 
-.page-total {
+  .page-total {
     display: inline-block;
     vertical-align: middle;
-}
-.rows{
-line-height:34px;
-padding-right:10px;
-}
+  }
+  .rows{
+    line-height:34px;
+    padding-right:10px;
+  }
+  .returnRed{
+    color:red;
+  }
+  a{
+    cursor:pointer;
+  }
 </style>
