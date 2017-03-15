@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, '../dist'), {
   maxAge: 30 * 1000,
 }));
 
-var port = process.env.PORT || process.env.PORT || 8080;
+var port = process.env.PORT || process.env.PORT || config.build.port;
 app.listen(port, ()=>{
   console.log('server running at port:', port);
 });
