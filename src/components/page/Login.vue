@@ -140,7 +140,12 @@ h2{
   background-repeat: no-repeat;
   background-position: 50% 0;
 }
-
+.cd-form label.cd-username {
+  background-image:url("../../../static/img/cd-icon-username.svg");
+}
+.cd-form label.cd-password {
+  background-image:url("../../../static/img/cd-icon-password.svg");
+}
 .cd-form input {
   margin: 0;
   padding: 0;

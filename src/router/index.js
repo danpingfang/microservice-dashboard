@@ -15,11 +15,11 @@ export default new Router({
             children:[
                 {
                     path: '/',
-                    component: resolve => require(['../components/page/BaseTable.vue'], resolve)
+                    component: resolve => require(['../components/page/microService.vue'], resolve)
                 },
                 {
-                    path: '/basetable',
-                    component: resolve => require(['../components/page/BaseTable.vue'], resolve)
+                    path: '/Microservice',
+                    component: resolve => require(['../components/page/microService.vue'], resolve)
                 },
                 {
                     path: '/vuetable',

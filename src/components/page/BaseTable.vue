@@ -143,6 +143,9 @@
         </table>
       </div>
     </div>
+
+    <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">点我弹出/隐藏弹出框</button>
+    <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">可消失的弹出框</a>
   </div>
 </template>
 
@@ -157,7 +160,7 @@ import 'bootstrap/dist/js/bootstrap.js';
         lens : [10, 20, 30],     // 显示个数数组
         pageTotal : '',            // 总页数
         pages : [],              // 页码
-        activeNum : 0,
+        activeNum : 0,           // 页码数组下标
         sourceList : [],
         List : [],
         timeNow: new Date().getTime(),
@@ -173,14 +176,12 @@ import 'bootstrap/dist/js/bootstrap.js';
       }
     },
     created: function(){
-    console.log('created');
       this.getData();
       this.interval = setInterval(()=>{
         this.timeNow = new Date().getTime();
       }, 1000)
     },
     beforeDestroy: function(){
-      console.log('destoryed');
       this.interval && clearInterval(this.interval)
     },
     methods: {

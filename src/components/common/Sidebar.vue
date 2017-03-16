@@ -54,7 +54,7 @@ import 'bootstrap/dist/css/bootstrap.css';
             },
             goBaseTable() {
                 const self = this;
-                self.$router.push('/basetable');   
+                self.$router.push('/Microservice');
             },
             goBaseForm() {
                 const self = this;
