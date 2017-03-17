@@ -8,19 +8,18 @@
           <label class="image-replace cd-username" for="signin-username">用户名</label>
           <input v-model="ruleForm.username" class="full-width has-padding has-border" id="signin-username" type="text" placeholder="输入用户名">
         </p>
-
         <p class="fieldset">
           <label class="image-replace cd-password" for="signin-password">密码</label>
-          <input v-model="ruleForm.password" class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="输入密码" >
+          <input v-model="ruleForm.password" class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="输入密码" >
         </p>
-
         <p class="fieldset">
           <input type="checkbox" id="remember-me" checked>
           <label for="remember-me">记住登录状态</label>
         </p>
-          <p class="fieldset">
-            <input class="full-width2" type="submit" value="登 录" @click="submitForm()">
-          </p>
+        <p class="fieldset" @click="submitForm()">
+          <input class="full-width2" type="button" value="登 录">
+          <!-- <span>登 录</span> -->
+        </p>
       </form>
     </div>
   </div>
@@ -40,7 +39,13 @@
         methods: {
             submitForm() {
                 const self = this;
-                self.$router.push('/home');
+                if(self.ruleForm.username!=='' && self.ruleForm.username!==''){
+                   localStorage.setItem('ms_username',self.ruleForm.username);
+                   self.$router.push('/home');
+                }else {
+                   console.log('error submit!!');
+                   return false;
+                }
             }
         }
     }
@@ -153,10 +158,12 @@ h2{
   font-size: 16px;
 }
 .cd-form input.full-width {
-  width: 80%;
+  width: 100%;
+  box-sizing: border-box;
 }
 .cd-form input.full-width2 {
-  width: 94%;
+  width: 100%;
+  box-sizing: border-box;
 }
 .cd-form input.has-padding {
   padding: 12px 20px 12px 50px;
@@ -177,12 +184,13 @@ h2{
 .cd-form input.has-error {
   border: 1px solid #d76666;
 }
-.cd-form input[type=submit] {
+.cd-form input[type=button] {
   padding: 16px 0;
   cursor: pointer;
   background: #2f889a;
   color: #FFF;
   font-weight: bold;
+  border:none;
 }
 @media only screen and (min-width: 600px) {
   .cd-form {
@@ -201,8 +209,23 @@ h2{
   .cd-form input.has-padding {
     padding: 16px 20px 16px 50px;
   }
-  .cd-form input[type=submit] {
+  .cd-form input[type=button] {
     padding: 16px 0;
   }
-}    
+}
+/*.fieldset2{
+  text-align: center;
+  position: relative;
+  margin: 1.4em 0;
+  width: 100%;
+  height:40px;
+  line-height: 40px;
+  background: #2f889a;
+  color: #FFF;
+  font-weight: bold;
+  border-radius: 0.25em;
+}  
+.fieldset2 span {
+ font-size: 16px;
+} */ 
 </style>

@@ -31,7 +31,7 @@
   export default {
     data() {
       return {
-          username: 'fangdanping'
+          name: 'fangdanping'
       }
     },
     computed:{

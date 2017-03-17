@@ -2,7 +2,19 @@
   <div class="baseTable">
     <div class="whole-page "></div>
     <div class="current-page">
-      <h3 class="project"><i class="glyphicon glyphicon-map-marker"></i> 微服务</h3>
+      <div class="project">
+        <h3 class="project-title">
+          <i class="glyphicon glyphicon-map-marker"></i> 微服务
+        </h3>
+      </div>
+      <div class="tabs">
+        <ul class="nav nav-pills ">
+          <li class="active"><a>开发环境</a></li>
+          <li><a >生产环境</a></li>
+          <li><a >测试环境</a></li>
+          <li><a >预生产环境</a></li>
+        </ul>
+      </div>
     </div>
     <div class="card-content">
       <form role="form">
@@ -143,15 +155,15 @@
         </table>
       </div>
     </div>
-
-    <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">点我弹出/隐藏弹出框</button>
-    <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">可消失的弹出框</a>
+    <!--<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Tooltip on top</button>-->
   </div>
 </template>
 
 <script>
 import $ from 'jquery';
 import 'bootstrap/dist/js/bootstrap.js';
+//import 'layer/layer.min.js';
+//import '../js/layer.js'
   export default {
     data() {
       return {
@@ -236,7 +248,7 @@ import 'bootstrap/dist/js/bootstrap.js';
         if (this.activeNum > 0) {
           this.activeNum = this.activeNum - 1
         } else {
-          alert("当前已经是首页");
+          layer.msg('玩命提示中');
         }
       },
       // 下一页
@@ -261,24 +273,18 @@ import 'bootstrap/dist/js/bootstrap.js';
 </script>
 
 <style>
-  .page-opacity{
-    position:fixed;
-    width:100%;
-    height: 100%;
-    background-color:rgba(0,0,0,0.5);
-    z-index: 1000;
-  }
   h3{
     margin: 0;
     padding:0;
   }
-  .card-content{
-    padding:4px;
-  }
   .current-page{
     border-bottom:1px solid #1AA094;
+    display:flex;
   }
   .project{
+    flex:1;
+  }
+  .project-title{
     padding-left:15px;
     line-height:40px;
     text-align:left;
@@ -288,6 +294,23 @@ import 'bootstrap/dist/js/bootstrap.js';
   }
   .project>i{
     color:#333;
+  }
+  .nav-pills > li > a{
+    border-radius:0;
+  }
+  .nav-pills > li.active > a{
+   background-color:#b5cfd9;
+   color:#333;
+  }
+  .nav-pills > li.active>a:hover{
+     background-color:#b5cfd9;
+     color:#333;
+  }
+  .nav-pills > li> a{
+   color:#777;
+  }
+  .card-content{
+    padding:4px;
   }
   th,td{
     text-align: center;
@@ -300,25 +323,6 @@ import 'bootstrap/dist/js/bootstrap.js';
   }
   .table-responsive{
     margin-top: 10px;
-  }
-
-  .domain-list{
-    display: none;
-    position: absolute;
-    width: 100%;
-    max-height: 100%;
-    top:0;
-    padding:20%;
-    z-index: 10000;
-  }
-  .app-list{
-    display: none;
-    position: absolute;
-    width: 100%;
-    max-height: 100%;
-    top:0;
-    padding:20%;
-    z-index: 10000;
   }
   .modal-header{
     border-bottom: 0;
@@ -352,4 +356,5 @@ import 'bootstrap/dist/js/bootstrap.js';
   a{
     cursor:pointer;
   }
+
 </style>
